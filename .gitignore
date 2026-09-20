@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller / packaging
+*.manifest
+*.spec
+tool/build/
+tool/dist/
+
+# Caches and logs
+*.log
+.coverage
+.cache/
+
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# IDE / Editor configs
+.idea/
+.vscode/
+*.swp
+*.swo

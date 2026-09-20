@@ -1,0 +1,605 @@
+{
+  "settings": [
+    {
+      "label": "Conversation Sharing",
+      "description": "Generate a link that lets any Googler load a read-only copy of a conversation. Sharing exports the conversation history to your public x20 folder, so it needs that folder to be readable by others."
+    },
+    {
+      "label": "Inline Actions",
+      "description": "Show a floating notification card when background conversations need your input. Answer questions, approve commands, and grant permissions without leaving your current conversation. Share feedback at go/inline-actions-feedback."
+    },
+    {
+      "label": "Always Proceed",
+      "description": "Agent never asks for review. This maximizes the autonomy of the Agent, but also has the highest risk of the Agent operating over unsafe or injected Artifact content."
+    },
+    {
+      "label": "Always Ask",
+      "description": "Agent always asks for review."
+    },
+    {
+      "label": "Allow List Terminal Commands",
+      "description": "The agent auto-executes commands matched by an allow list entry."
+    },
+    {
+      "label": "Deny List Terminal Commands",
+      "description": "The agent asks for permission before executing commands matched by a deny list entry."
+    },
+    {
+      "label": "Agent Auto-Fix Lints",
+      "description": "Give the agent awareness of lint errors created by its edits so it can fix them without explicit prompting."
+    },
+    {
+      "label": "Queued Messages",
+      "description": "Configure when follow-up messages are sent."
+    },
+    {
+      "label": "Strict Mode",
+      "description": "Enforce settings that prevent the agent from autonomously running targeted exploits and require human review for all agent actions. Visit antigravity.google/docs/strict-mode for details."
+    },
+    {
+      "label": "Agent Non-Workspace File Access",
+      "description": "Allow the agent to automatically view and edit files outside the current workspace. Use with caution: this gives the agent access to additional potentially-relevant information, but also allows the agent to access credential files, secrets, and other files outside of the workspace that could be targeted in prompt injection attacks or other exploits by malicious actors."
+    },
+    {
+      "label": "Command Setup Script",
+      "description": "A shell setup script run before every command the agent executes."
+    },
+    {
+      "label": "Enable Terminal Sandbox",
+      "description": "Run terminal commands with sandbox restrictions."
+    },
+    {
+      "label": "Sandbox Allow Network",
+      "description": "Allow sandboxed commands to make network requests."
+    },
+    {
+      "label": "Enable Shell Integration",
+      "description": "Use the IDE's shell integration to detect and report terminal command execution. When disabled, the agent uses its own shell. Restart the application for this to take effect."
+    },
+    {
+      "label": "Review Policy",
+      "description": "Specifies the agent's behavior when asking for review on artifacts, which are documents it creates to enable a richer conversation experience."
+    },
+    {
+      "label": "Enable Sounds for Agent",
+      "description": "Play a sound when the agent finishes generating a response."
+    },
+    {
+      "label": "Enable Notifications for Agent",
+      "description": "Show browser notifications when your action is needed or execution finishes."
+    },
+    {
+      "label": "Auto-Expand Changes Overview",
+      "description": "Automatically expand the Changes Overview toolbar when the agent finishes generating a response."
+    },
+    {
+      "label": "[Dev] GCP Project ID",
+      "description": "GCP Project ID for enterprise features."
+    },
+    {
+      "label": "Conversation History",
+      "description": "Let the agent access past conversations to inform its responses."
+    },
+    {
+      "label": "Knowledge",
+      "description": "Let the agent access its knowledge base to inform its responses and automatically generate knowledge items in the background. Turning this off prevents the agent from accessing existing knowledge items, but doesn't delete them."
+    },
+    {
+      "label": "Auto-Open Edited Files",
+      "description": "Open files in the background if the agent creates or edits them"
+    },
+    {
+      "label": "Open Agent on Reload",
+      "description": "Open the agent panel on window reload"
+    },
+    {
+      "label": "Verbose Agent Chat",
+      "description": "Display and preserve intermediate thinking steps."
+    },
+    {
+      "label": "Conversation Width",
+      "description": "Configure the maximum width of the conversation panel."
+    },
+    {
+      "label": "Markdown Artifact Width",
+      "description": "Configure the default width of markdown artifacts."
+    },
+    {
+      "label": "Table Width",
+      "description": "Configure the default width of tables."
+    },
+    {
+      "label": "Suggestions in Editor",
+      "description": "Show suggestions when typing in the editor"
+    },
+    {
+      "label": "Tab to Jump",
+      "description": "Predict the location of your next edit and navigate you there with a tab keypress."
+    },
+    {
+      "label": "Tab to Import",
+      "description": "Quickly add and update imports with a tab keypress."
+    },
+    {
+      "label": "Tab Speed",
+      "description": "Set the speed of tab suggestions"
+    },
+    {
+      "label": "Highlight After Accept",
+      "description": "Highlight newly inserted text after accepting a Tab completion."
+    },
+    {
+      "label": "Tab Gitignore Access",
+      "description": "Allow Tab to view and edit the files in .gitignore. Use with caution if your .gitignore lists files containing credentials, secrets, or other sensitive information."
+    },
+    {
+      "label": "Enable Browser Tools",
+      "description": "Let the agent use browser tools to open URLs, read web pages, and interact with browser content. This gives the agent access to important (and often critical) knowledge and methods of validation, but any browser integration does increase exposure to external malicious parties for security exploits."
+    },
+    {
+      "label": "Browser Javascript Execution Policy",
+      "description": "Controls whether the agent can run custom JavaScript to automate complex browser actions."
+    },
+    {
+      "label": "Chrome Binary Path",
+      "description": "Path to the Chrome/Chromium executable. Leave empty for auto-detection."
+    },
+    {
+      "label": "Browser User Profile Path",
+      "description": "Custom path for the browser user profile directory. Leave empty for default (~/.gemini/antigravity-browser-profile)."
+    },
+    {
+      "label": "Browser CDP Port",
+      "description": "Port number for Chrome DevTools Protocol remote debugging. Leave empty for default (9222)."
+    },
+    {
+      "label": "Include Jetski Default Customizations",
+      "description": "Include default customizations, such as default skills."
+    },
+    {
+      "label": "Prevent Sleep",
+      "description": "Prevent the computer from sleeping while the app is running."
+    },
+    {
+      "label": "Keep In Menu Bar",
+      "description": "Keep the app accessible from the menu bar and running in the background when all windows are closed."
+    },
+    {
+      "label": "Automatic Check for Updates",
+      "description": "Automatically prompt you to restart the app when a new update is available. When disabled, you can check for updates manually from the app menu."
+    },
+    {
+      "label": "Enable Remote Control",
+      "description": "Manage your conversations from the companion website."
+    },
+    {
+      "label": "Nickname",
+      "description": "A nickname for identifying this application in the companion website. Changing this will restart the connection."
+    },
+    {
+      "label": "Conversation Sharing",
+      "description": "Generate a link that lets any Googler load a read-only copy of a conversation. Sharing exports the conversation history to your public x20 folder, so it needs that folder to be readable by others."
+    },
+    {
+      "label": "Inline Actions",
+      "description": "Show a floating notification card when background conversations need your input. Answer questions, approve commands, and grant permissions without leaving your current conversation. Share feedback at go/inline-actions-feedback."
+    },
+    {
+      "label": "CitC Workspace VCS",
+      "description": "VCS used when creating a new CitC workspace, including workspaces generated based off your initial prompt."
+    },
+    {
+      "label": "Use full VCS clones for Best of N",
+      "description": "Give each Best of N fork a full clone of your workspace, including its local commit history (Fig and Piper only; JJ temporarily falls back to standard CitC clones). Choosing a winner then gives your workspace that fork's state, so the commits it made are kept. Forks take longer to create than the default CitC clone. See go/jetski-best-of-n."
+    },
+    {
+      "label": "Use full Git clones for Best of N",
+      "description": "Give each Best of N fork its own clone of your Git repository instead of a copy-on-write overlay. Each fork is then a real repository, so commits it makes are kept when you choose it as the winner. Forks take longer to create, and the wait grows with the size of your repository. See go/jetski-best-of-n."
+    },
+    {
+      "label": "Workspaces",
+      "description": "Folders the automation agents can access."
+    },
+    {
+      "label": "Access grants",
+      "description": "Command and file access granted to the automation agents."
+    },
+    {
+      "label": "Enable Remote Control",
+      "description": "Work with local agents from another device."
+    },
+    {
+      "label": "Device Name",
+      "description": "A label for this computer when you connect from another device. Changing it reconnects."
+    },
+    {
+      "label": "Execute URLs",
+      "description": "Allow/deny agent browser actuation access to specific URLs."
+    },
+    {
+      "label": "Override feature environment",
+      "description": "When enabled, the values below replace the auto-detected OS, host, and user type used for feature gating."
+    },
+    {
+      "label": "Operating System",
+      "description": "Simulate running on a different OS."
+    },
+    {
+      "label": "Host Environment",
+      "description": "Simulate a different host (Electron, desktop or mobile Web, Extension, remote control, or installed PWA)."
+    },
+    {
+      "label": "User Type",
+      "description": "Simulate a different user cohort (Google, External, Enterprise)."
+    },
+    {
+      "label": "Workspace URI query parameter",
+      "description": "Sets the `workspaceUri` URL parameter and reloads, repointing the active workspace. Pick a folder from an existing project or enter a custom URI (e.g. file:///google/src/cloud/<user>/<client>/google3)."
+    },
+    {
+      "label": "Read Files",
+      "description": "Paths the agent can read inside this workspace."
+    },
+    {
+      "label": "Write Files",
+      "description": "Paths the agent can modify inside this workspace."
+    },
+    {
+      "label": "Terminal Commands",
+      "description": "Terminal commands the agent can execute in this workspace."
+    },
+    {
+      "label": "Commands Outside Sandbox",
+      "description": "Commands the agent can run outside the sandbox in this workspace."
+    },
+    {
+      "label": "MCP Tools",
+      "description": "External tools the agent can call via Model Context Protocol."
+    },
+    {
+      "label": "Read URLs",
+      "description": "URLs the agent can read or open in this workspace."
+    },
+    {
+      "label": "Execute URLs",
+      "description": "URLs the agent can actuate on in this workspace."
+    },
+    {
+      "label": "Request Review",
+      "description": "Every terminal command requires approval."
+    },
+    {
+      "label": "Default",
+      "description": "Ask for permission for sensitive operations."
+    },
+    {
+      "label": "Vetted (Preview)",
+      "description": "A Gemini-powered security agent decides if commands should be auto-approved."
+    },
+    {
+      "label": "Turbo",
+      "description": "Allow the agent to run without restrictions."
+    },
+    {
+      "label": "File Reads",
+      "description": "Allow/deny agent read access to specific files or directories."
+    },
+    {
+      "label": "File Writes",
+      "description": "Allow/deny agent write access to specific files or directories."
+    },
+    {
+      "label": "Read URLs",
+      "description": "Allow/deny agent read access to specific URLs or domains."
+    },
+    {
+      "label": "Terminal Commands",
+      "description": "Allow/deny specific terminal commands."
+    },
+    {
+      "label": "Commands Outside Sandbox",
+      "description": "Allow/deny agent command execution outside the sandbox."
+    },
+    {
+      "label": "MCP Tools",
+      "description": "External tools the agent can call via Model Context Protocol."
+    },
+    {
+      "label": "File Access Rules",
+      "description": "Configure allowed and denied paths for file reads and writes."
+    },
+    {
+      "label": "Network Access Rules",
+      "description": "Configure allowed and denied URLs for reading."
+    },
+    {
+      "label": "Terminal Commands",
+      "description": "Configure allowed terminal commands."
+    },
+    {
+      "label": "Commands Outside Sandbox",
+      "description": "Configure allowed commands outside the sandbox."
+    },
+    {
+      "label": "MCP Tools",
+      "description": "Configure external tools via Model Context Protocol."
+    },
+    {
+      "label": "GitHub",
+      "description": "Configure GitHub access policies."
+    },
+    {
+      "label": "Tool Permissions",
+      "description": "Modify permissions for file, terminal, and MCP tools."
+    },
+    {
+      "label": "Outside of folders file access policy",
+      "description": "Configures how the agent tries to access files outside of its working folders."
+    },
+    {
+      "label": "Terminal Command Auto Execution",
+      "description": "Controls whether terminal commands require your approval before running."
+    },
+    {
+      "label": "Enable Sandbox Mode (Preview)",
+      "description": "Restricts agent tools to a secure, isolated local sandbox."
+    },
+    {
+      "label": "Enable Sandbox Mode (Preview)",
+      "description": "Restricts agent tools to a secure, isolated local sandbox."
+    },
+    {
+      "label": "Sandbox Allow Network",
+      "description": "When enabled, sandboxed commands are allowed to make network requests."
+    },
+    {
+      "label": "Enable Shell Integration",
+      "description": "When enabled, Agent will use IDE's shell integration to detect and report terminal command execution."
+    },
+    {
+      "label": "Agent Non-Workspace File Access",
+      "description": "Allows the agent to access files outside of your current workspace."
+    },
+    {
+      "label": "Auto-Open Edited Files",
+      "description": "Open files in the background if Agent creates or edits them"
+    },
+    {
+      "label": "Agent Auto-Fix Lints",
+      "description": "When enabled, Agent is given awareness of lint errors created by its edits and may fix them without explicit user prompting."
+    },
+    {
+      "label": "Conversation History",
+      "description": "When enabled, the agent will be able to access past conversations to inform its responses."
+    },
+    {
+      "label": "Knowledge",
+      "description": "When enabled, the agent will be able to access its knowledge base to inform its responses and automatically generate knowledge items in the background."
+    },
+    {
+      "label": "Explain and Fix in Current Conversation",
+      "description": "When enabled, 'Explain and Fix' actions will continue in the current conversation instead of starting a new one."
+    },
+    {
+      "label": "Open Agent on Reload",
+      "description": "Open Agent panel on window reload"
+    },
+    {
+      "label": "Enable Sounds for Agent",
+      "description": "When enabled, Antigravity will play a sound when Agent finishes generating a response."
+    },
+    {
+      "label": "Auto-Expand Changes Overview",
+      "description": "When enabled, the Changes Overview toolbar will automatically expand when Agent finishes generating a response."
+    },
+    {
+      "label": "Read Files",
+      "description": "Paths the agent can read."
+    },
+    {
+      "label": "Write Files",
+      "description": "Paths the agent can modify."
+    },
+    {
+      "label": "Terminal Commands",
+      "description": "Terminal commands the agent can execute."
+    },
+    {
+      "label": "Commands Outside Sandbox",
+      "description": "Commands the agent can run outside the sandbox."
+    },
+    {
+      "label": "MCP Tools",
+      "description": "External tools the agent can call via Model Context Protocol."
+    },
+    {
+      "label": "Read URLs",
+      "description": "URLs the agent can read or open in the browser."
+    },
+    {
+      "label": "Execute URLs",
+      "description": "URLs the agent can actuate on using the browser."
+    },
+    {
+      "label": "Browser Actuation Rules",
+      "description": "Configure allowed and denied URLs for browser actuation."
+    },
+    {
+      "label": "All tools (*)",
+      "description": "Hook will trigger if any tool is executed."
+    },
+    {
+      "label": "run_command",
+      "description": "Hook will only trigger if the tool name matches run_command."
+    },
+    {
+      "label": "run_command or view_file",
+      "description": "Hook will only trigger if the tool name matches run_command or view_file."
+    },
+    {
+      "label": "Browser tools (browser_.*)",
+      "description": "Hook will only trigger if the tool name starts with browser_."
+    },
+    {
+      "label": "Include Jetski Default Customizations",
+      "description": "When enabled, the agent will include default customizations, including default skills."
+    },
+    {
+      "label": "Build With Google Plugins",
+      "description": "Browse and enable plugins from the Build With Google catalog."
+    },
+    {
+      "label": "Manage Hooks",
+      "description": "Configure hooks that run on agent lifecycle events."
+    },
+    {
+      "label": "CitC Workspace Type",
+      "description": "Select the workspace type that will be used for new conversations started with the New Workspace option."
+    },
+    {
+      "label": "Command Setup Script",
+      "description": "A shell setup script run before every command the agent executes in this project. Overrides the global script."
+    },
+    {
+      "label": "Local",
+      "description": "Run in your current workspace"
+    },
+    {
+      "label": "Worktree",
+      "description": "Run in a new worktree"
+    },
+    {
+      "label": "CitC Clone",
+      "description": "Clone current workspace into a new independent workspace"
+    },
+    {
+      "label": "Android (main)",
+      "description": "googleplex-android/platform/superproject/main"
+    },
+    {
+      "label": "Chromium",
+      "description": "chromium/chromium/src"
+    }
+  ],
+  "screens": [
+    "Account",
+    "Tab",
+    "Customizations",
+    "CitC Settings",
+    "Best of N",
+    "Models",
+    "Notifications",
+    "App",
+    "Developer",
+    "Browser",
+    "Jetski Chat",
+    "Editor",
+    "Regroup Google3 Chats",
+    "Labs",
+    "Fullscreen",
+    "General",
+    "Appearance"
+  ],
+  "titles": [
+    ",l),z.createElement(",
+    "Account",
+    "Action required",
+    "Add MCP Server",
+    "Add MCP Servers",
+    "Add MCP server",
+    "Add Workspace",
+    "Add inline comment",
+    "Added (Staged)",
+    "Address CLs needing attention",
+    "Advanced",
+    "Agent Behavior",
+    "Agent Edits",
+    "Agent Script",
+    "Agent terminated due to error",
+    "Agents",
+    "Amend succeeded",
+    "Antigravity Interactive HTML",
+    "Appearance",
+    "Application",
+    "Artifacts",
+    "Automations",
+    "Background Tasks",
+    "Baseline model quota reached",
+    "Battle Mode Infos",
+    "Best of N",
+    "Branch Changes",
+    "Browser",
+    "Browser Actuation Permissions",
+    "Browser Settings",
+    "Build With Google Plugins",
+    "Capture console logs",
+    "Capture screenshot",
+    "Cascade Config",
+    "Cascade ID",
+    "Changes",
+    "Chat Settings",
+    "CitC",
+    "CitC Settings",
+    "Clear Search",
+    "Clear search (Esc)",
+    "Click to copy URL",
+    "Click to copy full command",
+    "Close Settings",
+    "Close split view and go to forked conversation",
+    "Code Search",
+    "Commands",
+    "Commands Outside Sandbox",
+    "Commit succeeded",
+    "Concierge voice message failed",
+    "Concierge voice mode is active",
+    "Concierge voice mode stopped",
+    "Configure Branches",
+    "Configure Worktree Branches",
+    "Confirm Undo",
+    "Context",
+    "Conversation",
+    "Conversation 1",
+    "Conversation 2",
+    "Conversation 3",
+    "Conversation Archived",
+    "Conversation copied as Markdown to clipboard",
+    "Conversation unavailable",
+    "Conversations",
+    "Copied",
+    "Copy",
+    "Copy description",
+    "Copy email address",
+    "Copy error to clipboard",
+    "Copy full URL to clipboard",
+    "Copy output",
+    "Copy path",
+    "Copy raw string value",
+    "Copy schema JSON",
+    "Copy section content",
+    "Copy thinking",
+    "Copy this subtree JSON",
+    "Copy trajectory ID",
+    "Copy value",
+    "Core AI Systems is hiring!",
+    "Could not create project",
+    "Couldn't load Google Drive link title",
+    "Custom Agent Error:",
+    "Custom Agents",
+    "Custom View",
+    "Custom agents are not available in Best of N mode.",
+    "Customizations",
+    "Customize Global Skills",
+    "Danger Zone",
+    "Dark Theme",
+    "Default Customizations",
+    "Delete ABFS Workspace",
+    "Delete Conversation",
+    "Delete MCP Server",
+    "Delete Skill",
+    "Delete Task",
+    "Deleted",
+    "Developer",
+    "Discover helpful skills & plugins",
+    "Dismiss announcement"
+  ]
+}

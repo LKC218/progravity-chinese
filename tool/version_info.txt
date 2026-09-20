@@ -1,0 +1,49 @@
+# UTF-8
+#
+# Windows PE Version Info for AntigravityPatcher
+#
+VSVersionInfo(
+  ffi=FixedFileInfo(
+    filevers=(2, 0, 0, 0),
+    prodvers=(2, 0, 0, 0),
+    mask=0x3f,
+    flags=0x0,
+    OS=0x40004,
+    fileType=0x1,
+    subtype=0x0,
+    date=(0, 0)
+  ),
+  kids=[
+    StringFileInfo(
+      [
+        StringTable(
+          '080404b0',
+          [
+            StringStruct('CompanyName', '@LKC218'),
+            StringStruct('FileDescription', '谷歌正重力 · Google Antigravity 2.x 客户端一键汉化助手'),
+            StringStruct('FileVersion', '2.0.0.0'),
+            StringStruct('InternalName', 'AntigravityPatcher'),
+            StringStruct('LegalCopyright', 'Copyright (C) 2026 @LKC218. All rights reserved.'),
+            StringStruct('OriginalFilename', '谷歌正重力汉化助手.exe'),
+            StringStruct('ProductName', '谷歌正重力汉化助手'),
+            StringStruct('ProductVersion', 'v2.0')
+          ]
+        ),
+        StringTable(
+          '040904b0',
+          [
+            StringStruct('CompanyName', '@LKC218'),
+            StringStruct('FileDescription', 'Google Antigravity Chinese Patcher'),
+            StringStruct('FileVersion', '2.0.0.0'),
+            StringStruct('InternalName', 'AntigravityPatcher'),
+            StringStruct('LegalCopyright', 'Copyright (C) 2026 @LKC218. All rights reserved.'),
+            StringStruct('OriginalFilename', '谷歌正重力汉化助手.exe'),
+            StringStruct('ProductName', 'Google Antigravity Chinese Patcher'),
+            StringStruct('ProductVersion', 'v2.0')
+          ]
+        )
+      ]
+    ),
+    VarFileInfo([VarStruct('Translation', [0x0804, 0x04b0, 0x0409, 0x04b0])])
+  ]
+)
