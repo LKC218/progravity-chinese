@@ -1046,9 +1046,21 @@
         const cjkMatches = text.match(/[\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef]/g);
         const cjkCount = cjkMatches ? cjkMatches.length : 0;
         const nonCjkCount = text.length - cjkCount;
-        // 经验加权公式: 1 个中文字符约为 0.75 Token; 3.8 个西文字符约为 1 Token
-        const tokens = Math.round((cjkCount * 0.75) + (nonCjkCount / 3.8));
+        // 经验加权公式: 1 个中文字符约为 1.15 Token; 3.8 个西文字符约为 1 Token (对标真实 Gemini 分词器)
+        const tokens = Math.round((cjkCount * 1.15) + (nonCjkCount / 3.8));
         return Math.max(tokens, 1);
+    }
+
+    function formatCostRMB(inputTokens, outputTokens) {
+        // 基于 Gemini Flash 官方商业基线: 输入 ¥0.00054/k (0.54元/M), 输出 ¥0.00216/k (2.16元/M)
+        const cost = (inputTokens * 0.00000054) + (outputTokens * 0.00000216);
+        if (cost < 0.0001) {
+            return "￥<0.0001";
+        } else if (cost < 0.01) {
+            return "￥" + cost.toFixed(4);
+        } else {
+            return "￥" + cost.toFixed(3);
+        }
     }
 
     function updateTokenBadges() {
@@ -1100,27 +1112,59 @@
             }
             if (!topTurn) continue;
 
-            // 提取纯文本内容估算 Token
-            const fullText = topTurn.innerText || topTurn.textContent || "";
-            if (fullText.trim().length < 5) continue;
+            // 提取纯文本内容估算 Token (单轮模型回答 Output)
+            const replyText = topTurn.innerText || topTurn.textContent || "";
+            if (replyText.trim().length < 5) continue;
 
-            const tokens = estimateTokens(fullText);
-            const credits = (tokens / 100).toFixed(1);
+            const outputTokens = estimateTokens(replyText);
+
+            // 尝试捕获单轮对应的用户提问 (Prompt Input)
+            let inputTokens = 0;
+            const prevNode = topTurn.previousElementSibling;
+            if (prevNode) {
+                const userText = prevNode.innerText || prevNode.textContent || "";
+                if (userText.trim().length > 0 && userText.trim().length < 20000) {
+                    inputTokens = estimateTokens(userText.trim());
+                }
+            }
+
+            const totalTurnTokens = inputTokens + outputTokens;
+            const costStr = formatCostRMB(inputTokens, outputTokens);
 
             // 提取耗时信息 (若有)
             let timeInfo = "";
-            const timeMatch = fullText.match(/(?:工作|思考)(?:了|耗时)\s*([^\n\r]+)/);
+            const timeMatch = replyText.match(/(?:工作|思考)(?:了|耗时)\s*([^\n\r]+)/);
             if (timeMatch) {
                 timeInfo = ` · 耗时 ${timeMatch[1].trim()}`;
             }
 
-            // 创建优雅胶囊徽章 (对标 WorkBuddy ✧ 算力)
+            // 创建优雅胶囊徽章 (以人民币 ￥ 为主，附带单轮独立 Token)
             const badge = document.createElement('div');
             badge.className = 'agy-token-badge';
             badge.setAttribute('data-agy-token-badge', 'true');
-            badge.setAttribute('title', `本轮任务结束结算:\n约 ${tokens.toLocaleString()} Tokens${timeInfo}\n折合算力: ✧ ${credits}`);
-            badge.style.cssText = 'display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; margin-right: 6px; height: 22px; border-radius: 9999px; font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: rgba(128, 128, 128, 0.08); color: var(--muted-foreground, #888888); border: 1px solid rgba(128, 128, 128, 0.16); user-select: none; cursor: default; transition: all 0.2s ease;';
-            badge.innerHTML = `<span style="color: #eab308; font-size: 12px; line-height: 1;">✧</span><span style="font-weight: 500;">${credits}</span>`;
+            badge.setAttribute('title', 
+                `💬 本轮独立对话成本核算 (不含历史上下文):\n` +
+                `----------------------------------------\n` +
+                (inputTokens > 0 ? `· 本轮提问: 约 ${inputTokens.toLocaleString()} Tokens (约 ￥${(inputTokens * 0.00000054).toFixed(4)})\n` : '') +
+                `· 本轮回答: 约 ${outputTokens.toLocaleString()} Tokens (约 ￥${(outputTokens * 0.00000216).toFixed(4)})\n` +
+                `· 单轮合计: 约 ${totalTurnTokens.toLocaleString()} Tokens${timeInfo}\n` +
+                `· 预估总额: ${costStr} (基准: Gemini Flash)\n` +
+                `* 纯单轮独立问答结算，绝无历史上下文滚雪球累加 (点击可切换显示格式)`
+            );
+            badge.style.cssText = 'display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; margin-right: 6px; height: 22px; border-radius: 9999px; font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: rgba(128, 128, 128, 0.08); color: var(--muted-foreground, #888888); border: 1px solid rgba(128, 128, 128, 0.16); user-select: none; cursor: pointer; transition: all 0.2s ease;';
+            badge.innerHTML = `<span style="color: #eab308; font-size: 11px; line-height: 1;">✧</span><span style="font-weight: 600; color: #10b981;">${costStr}</span><span style="color: var(--muted-foreground, #888888); font-size: 10px; margin-left: 2px;">(${totalTurnTokens.toLocaleString()} T)</span>`;
+
+            // 点击切换显示样式 (人民币为主 ⇄ Token 为主)
+            let isRmbFirst = true;
+            badge.onclick = (e) => {
+                e.stopPropagation();
+                isRmbFirst = !isRmbFirst;
+                if (isRmbFirst) {
+                    badge.innerHTML = `<span style="color: #eab308; font-size: 11px; line-height: 1;">✧</span><span style="font-weight: 600; color: #10b981;">${costStr}</span><span style="color: var(--muted-foreground, #888888); font-size: 10px; margin-left: 2px;">(${totalTurnTokens.toLocaleString()} T)</span>`;
+                } else {
+                    badge.innerHTML = `<span style="color: #eab308; font-size: 11px; line-height: 1;">✧</span><span style="font-weight: 600;">${totalTurnTokens.toLocaleString()} Tokens</span><span style="color: #10b981; font-size: 10px; margin-left: 3px;">(${costStr})</span>`;
+                }
+            };
 
             bar.setAttribute('data-agy-token-badge', 'true');
             bar.insertBefore(badge, bar.firstChild);
