@@ -9,11 +9,138 @@
     window.__ANTIGRAVITY_I18N_META__ = {
         name: "谷歌正重力",
         author: "@LKC218",
-        version: "v2.0"
+        version: "v2.1.1"
     };
     window.__ENABLE_CHINESE__ = true;
+    window.__ENABLE_HUMOR_QUOTES__ = true;
+    window.__ENABLE_TOKEN_BADGE__ = true;
     if (window.__antigravity_i18n_loaded) return;
     window.__antigravity_i18n_loaded = true;
+
+    // =============================================================
+    // 趣味幽默思考金句池 (Fun Thinking Quotes - 任何人可用记事本自由扩充)
+    // =============================================================
+    const THINKING_QUOTES = [
+        // 一、 极客硬核与代码圣经篇 (10条)
+        "正在认真推演，绝不给你留 Bug",
+        "代码千万行，严谨第一行",
+        "正在把逻辑炼成金，稍等片刻马上运行",
+        "只要我算得够快，Bug 就追不上我",
+        "正在内存寻址，给每个变量一个温暖的家",
+        "算法优化中，正在压榨最后 1% 的 CPU",
+        "正在重构天地，消灭每一处坏味道",
+        "编译火花四溅，零警告交付加载中",
+        "指针正在指哪打哪，绝不野指针",
+        "正在构建最优雅的抽象层，架构美学拉满",
+
+        // 二、 科幻宇宙与高维推演篇 (10条)
+        "正在翻阅宇宙终极答案 42...",
+        "思路打开中，正在连接高维智慧",
+        "量子纠缠状态中，正在观测最优解坍缩",
+        "逻辑推理超光速狂奔，突破戴森球算力",
+        "正在从平行宇宙借调最强代码算力",
+        "正在二向箔降维打击复杂逻辑",
+        "曲率引擎预热中，方案即将跃迁送达",
+        "正在连接赛博空间核心数据库...",
+        "引力波信号解析中，灵感正在穿透时空",
+        "碳基智慧与硅基算力正在激烈碰撞",
+
+        // 三、 职场打工与人间清醒篇 (10条)
+        "正在带薪疯狂思考，每一秒都很值钱",
+        "只要代码写得好，今晚准时下班没烦恼",
+        "正在疯狂推演，发际线微微往后移了一毫米",
+        "代码写得稳，周末不用被电话吵醒",
+        "正在用心雕琢，毕竟糊弄你良心会痛",
+        "摸鱼是不可能摸鱼的，只有写代码才能维持生活",
+        "正在喝一口虚拟咖啡提神醒脑",
+        "不甩锅不埋雷，本智能体主打一个靠谱",
+        "正在以 120 迈速度向周五狂奔",
+        "遇事不决先重构，万事开头难写完更难",
+
+        // 四、 高情商与真诚宠粉篇 (10条)
+        "你的需求就是最高指令，正在全力以赴",
+        "正在组织最地道的表达，绝不让你费脑阅读",
+        "不画大饼，只用真实代码说话",
+        "你的信任是我的动力，方案正在精心打磨",
+        "哪怕世界陷入死循环，我也会给你返回 True",
+        "正在认真想，对你的代码负责到底",
+        "不要眨眼，你的专属最佳方案即将出炉",
+        "你提需求我落实，最佳拍档双向奔赴",
+        "正在努力排错，绝不把焦虑留给用户",
+        "无论需求多复杂，陪你一起攻克到底",
+
+        // 五、 拟人脑暴与拟态状态篇 (10条)
+        "脑细胞正在以 120 迈速度疯狂超车",
+        "CPU 已经开始冒热气，灵感加载 99%",
+        "头脑风暴已经形成龙卷风，正在收网",
+        "思绪正在疯狂发散，然后精准收敛",
+        "正在大脑神经元之间架设高速立交桥",
+        "灵感小人正在大脑里疯狂踩缝纫机",
+        "正在清空逻辑缓存，腾出空间装灵感",
+        "思路上膛完毕，马上开火输出",
+        "正在脑内全真模拟运行，毫无卡顿",
+        "逻辑齿轮正在严丝合缝地疯狂咬合",
+
+        // 六、 玄幻修仙与武林秘籍篇 (10条)
+        "正在打通任督二脉，汇聚万千算法心法",
+        "代码大乘期大圆满，正在渡天劫编译",
+        "正在推演天机，此乃九天玄阶绝世算法",
+        "天地无极，乾坤借法，急急如律令！",
+        "正在藏经阁翻阅三千算法古籍",
+        "太极生两仪，两仪生二进制，道法自然",
+        "心如止水，手中有代码，心中无 Bug",
+        "正在御剑飞行，跨越逻辑崇山峻岭",
+        "聚气凝神，一招一式皆符合架构规范",
+        "正在炼制绝世丹药，吃完代码瞬间跑通",
+
+        // 七、 探案侦探与排错破案篇 (10条)
+        "真相只有一个，正在抽丝剥茧寻找线索",
+        "每一个隐蔽 Bug，都逃不过我的法眼",
+        "正在地毯式搜查代码案发现场",
+        "蛛丝马迹串联完毕，案情豁然开朗",
+        "排除了所有不可能，剩下的就是答案",
+        "正在重塑执行轨迹，还原逻辑犯罪现场",
+        "没有任何异常能在我的雷达下遁形",
+        "正在指纹比对每一处上下文差异",
+        "福尔摩斯模式启动，逻辑拼图即将完成",
+        "已锁定潜在异常，正在准备逮捕",
+
+        // 八、 极速狂飙与雷厉风行篇 (10条)
+        "天下武功唯快不破，正在闪电推演",
+        "毫秒级引擎全开，向目标飞速冲刺",
+        "风驰电掣，方案比你的眨眼速度还快",
+        "正在光速扫描知识库，片刻即至",
+        "极速通道已建立，正在全速狂飙",
+        "正在以音速梳理脉络，马上开始行动",
+        "逻辑流正在如水银泻地般飞速奔涌",
+        "正在突破延迟音障，飞速逼近最优解",
+        "速度拉满，激情不减，方案秒速送达",
+        "指令直达内核，极速响应正在路上",
+
+        // 九、 游戏电竞与动漫高燃篇 (10条)
+        "大招前摇准备中，蓄力 99% 即将爆发",
+        "正在规划战术路线，必拿全场 MVP",
+        "技能冷却完毕，准备打出全套连招",
+        "满血满蓝状态，正在开启暴击输出模式",
+        "已为代码叠满 Buff，防御拉满零破绽",
+        "正在呼叫空中支援，一波推平所有难点",
+        "战术目镜已启动，锁定最终执行目标",
+        "正在刷副本打材料，极品代码即将掉落",
+        "全军出击！向最后的验收终点冲锋！",
+        "正在解锁黄金成就：一次性完美跑通",
+
+        // 十、 哲学深邃与思考美学篇 (10条)
+        "我思故我在，正在赋予代码灵魂",
+        "简单胜于复杂，少即是多",
+        "从混沌中寻找秩序，在逻辑中提炼美感",
+        "代码不仅是指令，更是数字世界的诗歌",
+        "正在追寻工程与美学的黄金分割点",
+        "机械降神时刻，解法自然浮现",
+        "探索未知的边界，在逻辑荒原开垦绿洲",
+        "给岁月以文明，给逻辑以严谨",
+        "正在用纯粹理性推导数字世界的确定性",
+        "大音希声，大象无形，至简方案即将呈现"
+    ];
 
     // ========================
     // 顶栏品牌图标注入
@@ -579,7 +706,18 @@
         "Normal": "标准",
         "Dark": "深色暗调",
         "Light": "清爽浅色",
-        "System": "跟随系统"
+        "System": "跟随系统",
+        "Skills Used": "已使用技能",
+        "Uploads": "已上传文件",
+        "Thinking...": "正在深度思考...",
+        "Working...": "正在处理...",
+        "Analyzed": "已分析",
+        "Searched": "已检索",
+        "Ran": "已执行",
+        "Running": "正在执行",
+        "Thinking": "深度思考",
+        "Explored": "已探索",
+        "results": "条结果"
     };
 
     // 2. 占位符匹配
@@ -596,6 +734,15 @@
     const PATTERNS = [
         { regex: /^Select model, current:\s*(.+)$/i, replace: (m, p1) => `切换推理模型 (当前: ${p1})` },
 
+        // 框架摘要复合正则
+        { regex: /^Explored\s+(\d+)\s+files?,\s+(\d+)\s+searches?,\s+ran\s+(\d+)\s+commands?$/i, replace: (m, p1, p2, p3) => `已探索 ${p1} 个文件、${p2} 次搜索，运行了 ${p3} 条命令` },
+        { regex: /^Explored\s+(\d+)\s+files?,\s+(\d+)\s+searches?$/i, replace: (m, p1, p2) => `已探索 ${p1} 个文件、${p2} 次搜索` },
+        { regex: /^Explored\s+(\d+)\s+files?,\s+ran\s+(\d+)\s+commands?$/i, replace: (m, p1, p2) => `已探索 ${p1} 个文件，运行了 ${p2} 条命令` },
+        { regex: /^Explored\s+(\d+)\s+files?$/i, replace: (m, p1) => `已探索 ${p1} 个文件` },
+        { regex: /^(\d+)\s+searches?$/i, replace: (m, p1) => `${p1} 次搜索` },
+        { regex: /^(\d+)\s+results?$/i, replace: (m, p1) => `${p1} 条结果` },
+
+        // 思考与工作耗时
         { regex: /^Thought for (\d+)s$/, replace: (m, p1) => `思考了 ${p1} 秒` },
         { regex: /^Thought for (\d+)m$/, replace: (m, p1) => `思考了 ${p1} 分钟` },
         { regex: /^Thought for (\d+)m\s+(\d+)s$/, replace: (m, p1, p2) => `思考了 ${p1} 分 ${p2} 秒` },
@@ -605,34 +752,43 @@
         { regex: /^Worked for (\d+)h$/, replace: (m, p1) => `工作了 ${p1} 小时` },
         { regex: /^Ran\s+(\d+)\s+commands?$/i, replace: (m, p1) => `执行了 ${p1} 条系统命令` },
         { regex: /^Running\s+(\d+)\s+commands?$/i, replace: (m, p1) => `正在执行 ${p1} 条系统命令` },
+
+        // 谓词与动作步骤
+        { regex: /^Ran\s+(.+)$/i, replace: (m, p1) => `已执行 ${p1}` },
+        { regex: /^Running\s+(.+)$/i, replace: (m, p1) => `正在执行 ${p1}` },
+        { regex: /^Searched\s+(.+)$/i, replace: (m, p1) => `已检索 ${p1}` },
+        { regex: /^Searching\s+(.+)$/i, replace: (m, p1) => `正在检索 ${p1}` },
+        { regex: /^Thought\s+for\s+(.+)$/i, replace: (m, p1) => `思考耗时 ${p1}` },
+        { regex: /^Thinking\.\.\.$/i, replace: () => `正在思考...` },
+        { regex: /^Working\.\.\.$/i, replace: () => `正在处理...` },
+        { regex: /^Working\s+for\s+(.+)$/i, replace: (m, p1) => `工作耗时 ${p1}` },
+        { regex: /^Viewing\s+file\s+(.+)$/i, replace: (m, p1) => `正在读取文件 ${p1}` },
+        { regex: /^Editing\s+file\s+(.+)$/i, replace: (m, p1) => `正在编辑文件 ${p1}` },
+        { regex: /^Analyzed\s+(.+)$/i, replace: (m, p1) => `已分析 ${p1}` },
+        { regex: /^Analyzing\s+(.+)$/i, replace: (m, p1) => `正在分析 ${p1}` },
+        { regex: /^Updated\s+(\d+)\s+([a-zA-Z]+),\s+(\d+:\d+.*)$/i, replace: (m, p1, p2, p3) => `更新于 ${p1}日 ${p2} ${p3}` },
+        { regex: /^See all \((\d+)\)$/i, replace: (m, p1) => `查看全部 (${p1})` },
+
         { regex: /^(\d+)\s+files? changed$/i, replace: (m, p1) => `${p1} 个文件已修改` },
         { regex: /^(\d+)\s+subagents?$/i, replace: (m, p1) => `${p1} 个子智能体` },
         { regex: /^Load older messages, showing (\d+) of (\d+)$/i, replace: (m, p1, p2) => `加载更早消息 (当前显示 ${p2} 条中的 ${p1} 条)` },
         { regex: /^Showing (\d+) of (\d+) messages?$/i, replace: (m, p1, p2) => `显示全部 ${p2} 条中的 ${p1} 条消息` }
     ];
 
-    // 4. 防误伤机制 (严格保护代码、编辑器及输入区域)
-    const IGNORE_TAGS = new Set(["SCRIPT", "STYLE", "PRE", "CODE", "TEXTAREA"]);
+    // 4. 防误伤机制 (采用原生 C++ 级 closest 极速排查代码块、编辑器与输入区)
+    const IGNORE_TAGS = new Set(["SCRIPT", "STYLE", "PRE", "CODE", "TEXTAREA", "INPUT", "SVG", "PATH"]);
+    const IGNORE_SELECTOR = "pre, code, .monaco-editor, .prism-code, .code-block, .cm-editor, [data-lexical-editor], textarea, input";
 
     function shouldIgnore(node) {
         if (!window.__ENABLE_CHINESE__) return true;
-        let el = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
-        while (el) {
-            if (IGNORE_TAGS.has(el.tagName)) return true;
-            if (el.classList && (
-                el.classList.contains("monaco-editor") ||
-                el.classList.contains("prism-code") ||
-                el.classList.contains("code-block") ||
-                el.classList.contains("cm-editor") ||
-                el.getAttribute("data-lexical-editor") !== null
-            )) {
-                return true;
-            }
-            if (el.tagName === "DIV" && el.classList && el.classList.contains("markdown-body")) {
-                let p = node.parentElement;
-                if (p && (p.tagName === "PRE" || p.tagName === "CODE")) return true;
-            }
-            el = el.parentElement;
+        if (!node) return true;
+        const el = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+        if (!el) return true;
+        if (IGNORE_TAGS.has(el.tagName)) return true;
+        try {
+            if (el.closest && el.closest(IGNORE_SELECTOR)) return true;
+        } catch (e) {
+            // fallback
         }
         return false;
     }
@@ -648,7 +804,8 @@
         }
 
         // 2. 正则复合模板匹配
-        for (const p of PATTERNS) {
+        for (let i = 0; i < PATTERNS.length; i++) {
+            const p = PATTERNS[i];
             if (p.regex.test(trimmed)) {
                 const replaced = trimmed.replace(p.regex, p.replace);
                 return text.replace(trimmed, replaced);
@@ -658,12 +815,39 @@
         return null;
     }
 
+    // -------------------------------------------------------------
+    // 五重防卡死保险体系 (Anti-Freeze & Circuit Breaker)
+    // -------------------------------------------------------------
+    let isMutating = false;               // 保险1: 互斥防自激死循环锁
+    const processedNodes = new WeakSet(); // 保险1: WeakSet 节点防重缓存
+    let isCoolingDown = false;            // 保险4: 熔断冷却状态
+    let mutationCounter = 0;              // 保险4: 1秒内变动频次统计
+    const pendingRoots = new Set();       // 保险3: 防抖批处理队列
+    let debounceTimer = null;
+
+    // 每秒重置频次计数器
+    setInterval(() => {
+        mutationCounter = 0;
+    }, 1000);
+
     function translateTextNode(node) {
-        if (shouldIgnore(node)) return;
+        if (isMutating || shouldIgnore(node)) return;
+        if (processedNodes.has(node)) return;
+
         const raw = node.nodeValue;
+        if (!raw || !raw.trim()) return;
+
         const translated = translateText(raw);
         if (translated && translated !== raw) {
-            node.nodeValue = translated;
+            isMutating = true;
+            try {
+                node.nodeValue = translated;
+                processedNodes.add(node);
+            } finally {
+                isMutating = false;
+            }
+        } else {
+            processedNodes.add(node);
         }
     }
 
@@ -677,13 +861,13 @@
         const title = el.getAttribute("title");
         if (title) {
             const tr = translateText(title);
-            if (tr) el.setAttribute("title", tr);
+            if (tr && tr !== title) el.setAttribute("title", tr);
         }
 
         const ariaLabel = el.getAttribute("aria-label");
         if (ariaLabel) {
             const tr = translateText(ariaLabel);
-            if (tr) el.setAttribute("aria-label", tr);
+            if (tr && tr !== ariaLabel) el.setAttribute("aria-label", tr);
         }
     }
 
@@ -711,40 +895,337 @@
         ensureTitleIcon();
     }
 
+    // =============================================================
+    // 体验特性 A: 思考过程趣味幽默金句轮播 (反重力极光流光动态渐变，随用随销)
+    // =============================================================
+    function ensureHumorStyle() {
+        if (document.getElementById('agy-humor-style')) return;
+        const style = document.createElement('style');
+        style.id = 'agy-humor-style';
+        style.textContent = `
+            @keyframes agy-aurora-shimmer {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            .agy-humor-quote {
+                margin-left: 8px;
+                font-size: 12px;
+                font-weight: 500;
+                display: inline-flex;
+                align-items: center;
+                background: linear-gradient(90deg, #2563eb, #7c3aed, #db2777, #0284c7, #2563eb);
+                background-size: 300% 300%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                animation: agy-aurora-shimmer 4s ease infinite;
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                user-select: none;
+                letter-spacing: 0.2px;
+            }
+            @media (prefers-color-scheme: dark) {
+                .agy-humor-quote {
+                    background: linear-gradient(90deg, #38bdf8, #818cf8, #f472b6, #06b6d4, #38bdf8);
+                    background-size: 300% 300%;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+            }
+            html.dark .agy-humor-quote,
+            [data-theme="dark"] .agy-humor-quote,
+            .dark .agy-humor-quote {
+                background: linear-gradient(90deg, #38bdf8, #818cf8, #f472b6, #06b6d4, #38bdf8);
+                background-size: 300% 300%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    let humorTimer = null;
+    let currentHumorEl = null;
+    let currentQuoteText = null;
+    let lastQuoteTime = 0;
+    const QUOTE_INTERVAL_MS = 8000;
+
+    function stopHumorCarousel() {
+        if (humorTimer) {
+            clearTimeout(humorTimer);
+            humorTimer = null;
+        }
+        // 全局彻底扫除所有金句节点（清除任何历史残留）
+        document.querySelectorAll('.agy-humor-quote').forEach(el => el.remove());
+        currentHumorEl = null;
+    }
+
+    function getRandomQuote() {
+        if (!THINKING_QUOTES || THINKING_QUOTES.length === 0) return "正在认真思考中...";
+        const idx = Math.floor(Math.random() * THINKING_QUOTES.length);
+        return THINKING_QUOTES[idx];
+    }
+
+    function updateHumorQuotes() {
+        if (!window.__ENABLE_CHINESE__ || window.__ENABLE_HUMOR_QUOTES__ === false) {
+            stopHumorCarousel();
+            return;
+        }
+        ensureHumorStyle();
+
+        // 判定当前是否处于活跃生成/思考/运行态
+        const loadingEl = document.querySelector('[data-testid="agent-loading"]');
+        const stopBtn = document.querySelector('button[aria-label*="Stop"], button[title*="Stop"], button[title*="停止"], button[aria-label*="停止"], [data-testid="stop-execution"]');
+        const isBusy = !!(loadingEl || stopBtn);
+
+        // 如果没有正在运行的任务，或者底部状态条不存在，立刻彻底清扫全局金句并注销定时器
+        if (!isBusy || !loadingEl) {
+            stopHumorCarousel();
+            return;
+        }
+
+        // 彻底杜绝历史残留：移除任何不在当前 loadingEl 内的孤儿金句节点
+        document.querySelectorAll('.agy-humor-quote').forEach(el => {
+            if (el.parentElement !== loadingEl) {
+                el.remove();
+            }
+        });
+
+        let humorSpan = loadingEl.querySelector('.agy-humor-quote');
+        const now = Date.now();
+        // 金句记忆锁 (Linger Lock)：若距离上次换词不足 8 秒且已有金句，则复用现有金句，防止工具连续执行触发 React 重构导致疯狂跳字
+        if (!currentQuoteText || (now - lastQuoteTime >= QUOTE_INTERVAL_MS)) {
+            currentQuoteText = getRandomQuote();
+            lastQuoteTime = now;
+        }
+
+        if (!humorSpan) {
+            humorSpan = document.createElement('span');
+            humorSpan.className = 'agy-humor-quote';
+            humorSpan.setAttribute('data-agy-humor', 'true');
+            humorSpan.textContent = `[${currentQuoteText}]`;
+            loadingEl.appendChild(humorSpan);
+        } else if (humorSpan.textContent !== `[${currentQuoteText}]`) {
+            humorSpan.textContent = `[${currentQuoteText}]`;
+        }
+
+        currentHumorEl = humorSpan;
+
+        // 启动/续航 8 秒平滑轮播定时器（精确计算剩余停留时长，跨工具执行保持稳定节奏）
+        if (!humorTimer) {
+            const nextDelay = Math.max(1000, QUOTE_INTERVAL_MS - (Date.now() - lastQuoteTime));
+            humorTimer = setTimeout(function rotateHumor() {
+                const stillBusy = !!(document.querySelector('[data-testid="agent-loading"]') || document.querySelector('button[aria-label*="Stop"], button[title*="Stop"], button[title*="停止"], button[aria-label*="停止"], [data-testid="stop-execution"]'));
+                const activeLoading = document.querySelector('[data-testid="agent-loading"]');
+                if (!stillBusy || !activeLoading || !currentHumorEl || !currentHumorEl.isConnected) {
+                    stopHumorCarousel();
+                    return;
+                }
+                currentHumorEl.style.opacity = '0';
+                currentHumorEl.style.transform = 'translateY(2px)';
+                setTimeout(() => {
+                    if (currentHumorEl && currentHumorEl.isConnected) {
+                        currentQuoteText = getRandomQuote();
+                        lastQuoteTime = Date.now();
+                        currentHumorEl.textContent = `[${currentQuoteText}]`;
+                        currentHumorEl.style.opacity = '1';
+                        currentHumorEl.style.transform = 'translateY(0)';
+                    }
+                    if (humorTimer) {
+                        humorTimer = setTimeout(rotateHumor, QUOTE_INTERVAL_MS);
+                    }
+                }, 400);
+            }, nextDelay);
+        }
+    }
+
+    // =============================================================
+    // 体验特性 B: 任务结束时自动统计并展示 Token / 算力额度消耗徽章 (流式休眠，单次结算)
+    // =============================================================
+    function estimateTokens(text) {
+        if (!text) return 0;
+        const cjkMatches = text.match(/[\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef]/g);
+        const cjkCount = cjkMatches ? cjkMatches.length : 0;
+        const nonCjkCount = text.length - cjkCount;
+        // 经验加权公式: 1 个中文字符约为 0.75 Token; 3.8 个西文字符约为 1 Token
+        const tokens = Math.round((cjkCount * 0.75) + (nonCjkCount / 3.8));
+        return Math.max(tokens, 1);
+    }
+
+    function updateTokenBadges() {
+        if (!window.__ENABLE_CHINESE__ || window.__ENABLE_TOKEN_BADGE__ === false) {
+            document.querySelectorAll('.agy-token-badge').forEach(el => el.remove());
+            document.querySelectorAll('[data-agy-token-badge]').forEach(el => el.removeAttribute('data-agy-token-badge'));
+            return;
+        }
+
+        // 【防卡死铁律 1】流式生成期间绝对静默休眠：
+        // 只要发现活动执行按钮存在，直接返回，绝不在流式吐字中频繁计算！
+        const isGenerating = document.querySelector('button[aria-label="Stop execution"], button[title*="Stop"], button[title*="停止"], [data-testid="stop-execution"]');
+        if (isGenerating) return;
+
+        // 【防卡死铁律 2】事后一次性结算 (One-Shot)：
+        // 仅处理未打上 data-agy-token-badge 标记的操作栏
+        const actionBars = document.querySelectorAll('.flex.min-w-0.flex-wrap-reverse');
+        for (let i = 0; i < actionBars.length; i++) {
+            const bar = actionBars[i];
+            if (bar.hasAttribute('data-agy-token-badge') || bar.querySelector('.agy-token-badge')) {
+                continue;
+            }
+
+            // 向上回溯获取当前回答的顶级 Turn 容器 (突破局部深层包裹)
+            let curr = bar.parentElement;
+            let topTurn = null;
+            while (curr && curr !== document.body) {
+                const parent = curr.parentElement;
+                if (parent && (
+                    (parent.className || '').includes('gap-y-') ||
+                    parent.getAttribute('role') === 'log' ||
+                    parent.getAttribute('data-testid') === 'virtuoso-item-list' ||
+                    parent.classList.contains('conversation-log')
+                )) {
+                    topTurn = curr;
+                    break;
+                }
+                curr = curr.parentElement;
+            }
+            if (!topTurn) {
+                curr = bar.parentElement;
+                while (curr && curr !== document.body) {
+                    if ((curr.innerText || '').length > 50) {
+                        topTurn = curr;
+                        break;
+                    }
+                    curr = curr.parentElement;
+                }
+            }
+            if (!topTurn) continue;
+
+            // 提取纯文本内容估算 Token
+            const fullText = topTurn.innerText || topTurn.textContent || "";
+            if (fullText.trim().length < 5) continue;
+
+            const tokens = estimateTokens(fullText);
+            const credits = (tokens / 100).toFixed(1);
+
+            // 提取耗时信息 (若有)
+            let timeInfo = "";
+            const timeMatch = fullText.match(/(?:工作|思考)(?:了|耗时)\s*([^\n\r]+)/);
+            if (timeMatch) {
+                timeInfo = ` · 耗时 ${timeMatch[1].trim()}`;
+            }
+
+            // 创建优雅胶囊徽章 (对标 WorkBuddy ✧ 算力)
+            const badge = document.createElement('div');
+            badge.className = 'agy-token-badge';
+            badge.setAttribute('data-agy-token-badge', 'true');
+            badge.setAttribute('title', `本轮任务结束结算:\n约 ${tokens.toLocaleString()} Tokens${timeInfo}\n折合算力: ✧ ${credits}`);
+            badge.style.cssText = 'display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; margin-right: 6px; height: 22px; border-radius: 9999px; font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: rgba(128, 128, 128, 0.08); color: var(--muted-foreground, #888888); border: 1px solid rgba(128, 128, 128, 0.16); user-select: none; cursor: default; transition: all 0.2s ease;';
+            badge.innerHTML = `<span style="color: #eab308; font-size: 12px; line-height: 1;">✧</span><span style="font-weight: 500;">${credits}</span>`;
+
+            bar.setAttribute('data-agy-token-badge', 'true');
+            bar.insertBefore(badge, bar.firstChild);
+        }
+    }
+
+    // 批量空闲调度执行器
+    function processBatch() {
+        if (!window.__ENABLE_CHINESE__ || isCoolingDown) {
+            pendingRoots.clear();
+            return;
+        }
+
+        const nodesToProcess = Array.from(pendingRoots);
+        pendingRoots.clear();
+
+        for (let i = 0; i < nodesToProcess.length; i++) {
+            const node = nodesToProcess[i];
+            if (node && node.isConnected) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    translateTextNode(node);
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    walk(node);
+                }
+            }
+        }
+
+        // 挂载动态趣味金句与 Token 徽章
+        try {
+            updateHumorQuotes();
+        } catch (e) {
+            console.error("[Antigravity i18n humor error]", e);
+        }
+        try {
+            updateTokenBadges();
+        } catch (e) {
+            console.error("[Antigravity i18n token badge error]", e);
+        }
+    }
+
+    function scheduleBatch(node) {
+        if (isCoolingDown) return;
+
+        mutationCounter++;
+        // 熔断检测: 1秒内超 150 次变动自动进入冷却保护
+        if (mutationCounter > 150) {
+            if (!isCoolingDown) {
+                isCoolingDown = true;
+                console.warn("[Antigravity i18n] 触发熔断保护：检测到高频DOM写入，暂停调度 2 秒以保障60fps流畅...");
+                setTimeout(() => {
+                    isCoolingDown = false;
+                    mutationCounter = 0;
+                }, 2000);
+            }
+            return;
+        }
+
+        pendingRoots.add(node);
+
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            debounceTimer = null;
+            if (window.requestIdleCallback) {
+                window.requestIdleCallback(processBatch, { timeout: 80 });
+            } else {
+                processBatch();
+            }
+        }, 50);
+    }
+
     // 初次遍历
     if (document.body) {
         walk(document.body);
+        try { updateHumorQuotes(); } catch (e) {}
+        try { updateTokenBadges(); } catch (e) {}
     } else {
-        window.addEventListener("DOMContentLoaded", () => walk(document.body));
+        window.addEventListener("DOMContentLoaded", () => {
+            walk(document.body);
+            try { updateHumorQuotes(); } catch (e) {}
+            try { updateTokenBadges(); } catch (e) {}
+        });
     }
 
-    // 动态 DOM 变动监听
+    if (window.__antigravity_observer) {
+        try { window.__antigravity_observer.disconnect(); } catch (e) {}
+    }
     const observer = new MutationObserver((mutations) => {
-        if (!window.__ENABLE_CHINESE__) return;
-        for (const mutation of mutations) {
-            if (mutation.type === "childList") {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        translateTextNode(node);
-                    } else if (node.nodeType === Node.ELEMENT_NODE) {
-                        walk(node);
-                    }
-                });
-            } else if (mutation.type === "characterData") {
-                translateTextNode(mutation.target);
+        if (!window.__ENABLE_CHINESE__ || isMutating || isCoolingDown) return;
+        for (let i = 0; i < mutations.length; i++) {
+            const mutation = mutations[i];
+            if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+                for (let j = 0; j < mutation.addedNodes.length; j++) {
+                    scheduleBatch(mutation.addedNodes[j]);
+                }
             }
         }
+        try { updateHumorQuotes(); } catch (e) {}
     });
 
     observer.observe(document.documentElement, {
         childList: true,
-        subtree: true,
-        characterData: true
+        subtree: true
     });
+    window.__antigravity_observer = observer;
 
-    
-
-    
     // 监听与动态替换窗口标题
     function updateTitle() {
         if (document.title && document.title.includes("Antigravity")) {
@@ -752,11 +1233,45 @@
         }
     }
     updateTitle();
+    if (window.__antigravity_title_observer) {
+        try { window.__antigravity_title_observer.disconnect(); } catch (e) {}
+    }
     const titleObserver = new MutationObserver(updateTitle);
     const titleEl = document.querySelector('title');
     if (titleEl) {
         titleObserver.observe(titleEl, { childList: true, characterData: true });
     }
+    window.__antigravity_title_observer = titleObserver;
 
-    console.log("[Antigravity i18n] 深度专业汉化引擎已激活运行。");
+    // -------------------------------------------------------------
+    // 保险5: 双重紧急逃生急停开关 (Panic Switch)
+    // -------------------------------------------------------------
+    window.__DISABLE_I18N__ = function () {
+        window.__ENABLE_CHINESE__ = false;
+        try {
+            stopHumorCarousel();
+            document.querySelectorAll('.agy-humor-quote').forEach(el => el.remove());
+            document.querySelectorAll('.agy-token-badge').forEach(el => el.remove());
+            document.querySelectorAll('[data-agy-token-badge]').forEach(el => el.removeAttribute('data-agy-token-badge'));
+            const st = document.getElementById('agy-humor-style');
+            if (st) st.remove();
+            observer.disconnect();
+            titleObserver.disconnect();
+            if (debounceTimer) clearTimeout(debounceTimer);
+            pendingRoots.clear();
+            console.warn("[Antigravity i18n] 汉化引擎已紧急停用，所有监听与定时器已完整销毁。");
+            alert("[谷歌正重力] 汉化引擎已紧急停用！界面已恢复为原生英文。");
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    window.addEventListener("keydown", function (e) {
+        // 快捷键: Ctrl + Shift + Alt + F12 一键逃生
+        if (e.ctrlKey && e.shiftKey && e.altKey && e.key === "F12") {
+            window.__DISABLE_I18N__();
+        }
+    }, true);
+
+    console.log("[Antigravity i18n] 谷歌正重力 v2.1 深度汉化与智能徽章引擎已激活运行。");
 })();

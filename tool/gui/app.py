@@ -233,6 +233,39 @@ class AntigravityGuiApp:
         self.icon_combo.grid(row=0, column=3, sticky="w", padx=(4, 0))
         self.icon_combo.bind("<<ComboboxSelected>>", self._on_icon_select)
 
+        # 特性开关行与词典快捷编辑
+        features_frame = tk.Frame(drawer_card, bg="#ffffff")
+        features_frame.pack(fill="x", pady=(0, 8))
+
+        self.var_enable_humor = tk.BooleanVar(value=True)
+        self.chk_humor = tk.Checkbutton(
+            features_frame, text="启用状态条趣味幽默金句轮播 (100条极客打工金句)",
+            variable=self.var_enable_humor, font=("Microsoft YaHei UI", 8),
+            bg="#ffffff", activebackground="#ffffff", fg="#1e293b",
+            selectcolor="#ffffff"
+        )
+        self.chk_humor.pack(anchor="w")
+
+        feat_sub = tk.Frame(features_frame, bg="#ffffff")
+        feat_sub.pack(fill="x", pady=(2, 0))
+
+        self.var_enable_token = tk.BooleanVar(value=True)
+        self.chk_token = tk.Checkbutton(
+            feat_sub, text="启用任务结束 Token / 算力消耗统计徽章",
+            variable=self.var_enable_token, font=("Microsoft YaHei UI", 8),
+            bg="#ffffff", activebackground="#ffffff", fg="#1e293b",
+            selectcolor="#ffffff"
+        )
+        self.chk_token.pack(side="left")
+
+        btn_edit_dict = tk.Button(
+            feat_sub, text="📝 记事本编辑外置词库", font=("Microsoft YaHei UI", 8),
+            bg="#f1f5f9", fg="#2563eb", activebackground="#e2e8f0", activeforeground="#1d4ed8",
+            relief="flat", cursor="hand2", padx=6, pady=1, bd=1,
+            command=self._open_i18n_notepad
+        )
+        btn_edit_dict.pack(side="right")
+
         # 紧凑型日志输出框
         self.txt_log = tk.Text(drawer_card, font=("Consolas", 8), bg="#0f172a", fg="#f8fafc", relief="flat", wrap="word", height=5)
         self.txt_log.pack(fill="both", expand=True)
@@ -245,12 +278,26 @@ class AntigravityGuiApp:
 
         self._log(f"助手 {APP_VERSION} 就绪 (作者: {APP_AUTHOR})")
 
+    def _open_i18n_notepad(self):
+        try:
+            target = self.i18n_source
+            if not os.path.exists(target):
+                target = os.path.expanduser(r"~\.gemini\antigravity\i18n.js")
+            if os.path.exists(target):
+                os.system(f'start notepad.exe "{target}"')
+                self._set_toast("已调起记事本编辑外置词库 i18n.js", "#2563eb")
+                self._log(f"调起记事本编辑: {target}")
+            else:
+                messagebox.showerror("未找到文件", f"未找到可编辑的 i18n.js 文件: {target}")
+        except Exception as e:
+            messagebox.showerror("出错", str(e))
+
     def _toggle_advanced(self):
         self.is_advanced_open = not self.is_advanced_open
         if self.is_advanced_open:
             self.btn_toggle_log.config(text="收起详情 ▾")
             self.drawer_container.pack(fill="x", pady=(0, 6))
-            self.root.geometry("520x560")
+            self.root.geometry("520x620")
         else:
             self.btn_toggle_log.config(text="详细日志 ▸")
             self.drawer_container.pack_forget()
@@ -343,10 +390,18 @@ class AntigravityGuiApp:
 
                 title_text = self.var_title.get().strip() or "谷歌正重力"
                 icon_path = self._resolve_chosen_icon()
+                enable_humor = self.var_enable_humor.get()
+                enable_token = self.var_enable_token.get()
                 
                 if os.path.exists(self.i18n_source):
-                    self._log(f"应用定制 (标题: {title_text})...")
-                    Customizer.update_i18n_content(self.i18n_source, title_text, icon_path)
+                    self._log(f"应用定制 (标题: {title_text}, 金句: {enable_humor}, Token徽章: {enable_token})...")
+                    Customizer.update_i18n_content(
+                        self.i18n_source,
+                        title_text=title_text,
+                        icon_path=icon_path,
+                        enable_humor=enable_humor,
+                        enable_token_badge=enable_token
+                    )
 
                 self.patcher.install_patch(
                     i18n_src=self.i18n_source,
@@ -354,7 +409,7 @@ class AntigravityGuiApp:
                 )
                 self._log("全部补丁挂载完成！")
                 self._set_toast("🎉 汉化成功完成！打开或刷新客户端即可体验", "#16a34a")
-                messagebox.showinfo("成功", f"汉化成功完成！\n已将标题设为：{title_text}\n现在打开或刷新客户端即可体验纯正中文。")
+                messagebox.showinfo("成功", f"汉化成功完成！\n已将标题设为：{title_text}\n特性：趣味金句({'开' if enable_humor else '关'}) · 算力徽章({'开' if enable_token else '关'})\n现在打开或刷新客户端即可体验纯正中文。")
             except Exception as e:
                 self._log(f"错误: {str(e)}")
                 self._set_toast(f"✕ 注入失败: {str(e)}", "#dc2626")
